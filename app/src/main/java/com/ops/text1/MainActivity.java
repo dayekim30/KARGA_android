@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity implements ComponentCallback
 
                     KARGA_ReadMapper.main(the);
 
-                    KARGA_ResistomeMapper.main(the);
+                    // KARGA_ResistomeMapper.main(the);
 
                 } catch (Exception e) {
                     e.printStackTrace();
