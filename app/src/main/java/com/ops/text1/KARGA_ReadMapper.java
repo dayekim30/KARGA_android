@@ -340,7 +340,7 @@ public class KARGA_ReadMapper
 			}
 			if (i%100000==0) 
 			{
-				System.gc();
+				//System.gc();
 				allram = (float)(Runtime.getRuntime().maxMemory());
 				usedram = (float)(Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory());	
 				endTime = System.currentTimeMillis();

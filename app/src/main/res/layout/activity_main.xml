@@ -35,6 +35,7 @@
 <!--        android:background="#44a6c6"-->
 <!--        android:text="save"-->
 <!--        android:textColor="@android:color/white" />-->
+
     <Button
         android:id="@+id/btn_load"
         android:layout_width="wrap_content"
@@ -44,11 +45,16 @@
         android:text="commend start"
         android:textColor="@android:color/white" />
 
-    <TextView
-            android:id="@+id/tvLoad"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text ="" />
+<!--    <TextView-->
+<!--            android:id="@+id/tvLoad"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text ="" />-->
+    <EditText
+        android:id="@+id/et_stdout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:singleLine="false" />
 
 
 </LinearLayout>

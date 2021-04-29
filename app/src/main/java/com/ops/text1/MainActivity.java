@@ -1,5 +1,7 @@
 package com.ops.text1;
-
+import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.ComponentCallbacks2;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.DocumentsProvider;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -20,6 +23,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -28,11 +32,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintStream;
 
-public class MainActivity extends AppCompatActivity {
-    EditText et_id;
+public class MainActivity extends AppCompatActivity implements ComponentCallbacks2 {
+    EditText et_id,et_stdout;
     Button btn_test,btn_save,btn_load;
-    TextView txt_path,tvLoad;
+    TextView txt_path;
     Intent myFileIntent;
     String filename ="";
     String filepath = "";
@@ -46,13 +52,35 @@ public class MainActivity extends AppCompatActivity {
 
 
         et_id = findViewById(R.id.et_id);
+        et_stdout = findViewById(R.id.et_stdout);
         btn_test = findViewById(R.id.btn_test);
         txt_path = findViewById(R.id.txt_path);
 //        btn_save = findViewById(R.id.btn_save);
         btn_load = findViewById(R.id.btn_load);
-        tvLoad = findViewById(R.id.tvLoad);
+       // tvLoad = findViewById(R.id.tvLoad);
         filename = "myFile.txt";
         filepath = "myFileDir";
+
+        Runtime rt = Runtime.getRuntime();
+        Long maxMemory = rt.maxMemory();
+        Log.v("onCreate", "maxMemory:" + Long.toString(maxMemory));
+
+        ActivityManager am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+        int memoryClass = am.getMemoryClass();
+        Log.v("onCreate:","memoryClass: "+Integer.toString(memoryClass));
+
+        System.setOut(new PrintStream(new OutputStream() {
+
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+            @Override public void write(int oneByte) throws IOException {
+                outputStream.write(oneByte);
+
+                et_stdout.setText(new String(outputStream.toByteArray()));
+            }
+        }));
+
+
         if(!isExternalStorageAvailableForRW()){
             btn_save.setEnabled(false);
         }
@@ -117,6 +145,8 @@ public class MainActivity extends AppCompatActivity {
 
                 try {
                     KARGA_ReadMapper.main(the);
+                    KARGA_ResistomeMapper.main(the);
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -205,5 +235,60 @@ public class MainActivity extends AppCompatActivity {
                }
                break;
        }
+    }
+    public void onTrimMemory(int level) {
+
+        // Determine which lifecycle or system event was raised.
+        switch (level) {
+
+            case ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN:
+
+                /*
+                   Release any UI objects that currently hold memory.
+
+                   The user interface has moved to the background.
+                */
+
+                break;
+
+            case ComponentCallbacks2.TRIM_MEMORY_RUNNING_MODERATE:
+            case ComponentCallbacks2.TRIM_MEMORY_RUNNING_LOW:
+            case ComponentCallbacks2.TRIM_MEMORY_RUNNING_CRITICAL:
+
+                /*
+                   Release any memory that your app doesn't need to run.
+
+                   The device is running low on memory while the app is running.
+                   The event raised indicates the severity of the memory-related event.
+                   If the event is TRIM_MEMORY_RUNNING_CRITICAL, then the system will
+                   begin killing background processes.
+                */
+
+                break;
+
+            case ComponentCallbacks2.TRIM_MEMORY_BACKGROUND:
+            case ComponentCallbacks2.TRIM_MEMORY_MODERATE:
+            case ComponentCallbacks2.TRIM_MEMORY_COMPLETE:
+
+                /*
+                   Release as much memory as the process can.
+
+                   The app is on the LRU list and the system is running low on memory.
+                   The event raised indicates where the app sits within the LRU list.
+                   If the event is TRIM_MEMORY_COMPLETE, the process will be one of
+                   the first to be terminated.
+                */
+
+                break;
+
+            default:
+                /*
+                  Release any non-critical data structures.
+
+                  The app received an unrecognized memory level value
+                  from the system. Treat this as a generic low-memory message.
+                */
+                break;
+        }
     }
 }
