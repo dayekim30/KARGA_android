@@ -159,9 +159,10 @@ public class MainActivity extends AppCompatActivity implements ComponentCallback
                         KARGA_ReadMapper.main(the);
                     }else if(the[1].equals("KARGA_ResistomeMapper")) {
                         KARGA_ResistomeMapper.main(the);
-                    }else{
-                        et_stdout.setText("Wrong Class Name");
                     }
+//                    else{
+//                        et_stdout.setText("Wrong Class Name");
+//                    }
 
 
 
