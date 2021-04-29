@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:gravity="center"
     tools:context=".MainActivity">
 
 
@@ -12,20 +13,23 @@
         android:id="@+id/btn_test"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="button" />
+        android:layout_marginTop="@android:dimen/app_icon_size"
+        android:text="Directory" />
 
     <TextView
         android:id="@+id/txt_path"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="dummy_text"
+        android:text="Downloaded File Path"
         android:textSize="20dp" />
 
     <EditText
         android:id="@+id/et_id"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:hint="write commend" />
+        android:layout_marginTop="@android:dimen/app_icon_size"
+        android:hint="write command"
+        android:textAlignment="center" />
 
 <!--    <Button-->
 <!--        android:id="@+id/btn_save"-->
@@ -40,10 +44,12 @@
         android:id="@+id/btn_load"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
         android:background="#44a6c6"
-        android:text="commend start"
-        android:textColor="@android:color/white" />
+        android:text="command start"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
 
 <!--    <TextView-->
 <!--            android:id="@+id/tvLoad"-->
