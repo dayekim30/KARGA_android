@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -75,8 +76,12 @@ public class MainActivity extends AppCompatActivity implements ComponentCallback
 
             @Override public void write(int oneByte) throws IOException {
                 outputStream.write(oneByte);
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        et_stdout.setText(new String(outputStream.toByteArray()));
+                    }
+                });
 
-                et_stdout.setText(new String(outputStream.toByteArray()));
             }
         }));
 
@@ -140,18 +145,32 @@ public class MainActivity extends AppCompatActivity implements ComponentCallback
 
             @Override
             public void onClick(View v) {
-                 String he = et_id.getText().toString();
-                 String[] the = he.split(" ");
+
+
+
+                AsyncTask.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        String he = et_id.getText().toString();
+                        String[] the = he.split(" ");
 
                 try {
+
                     KARGA_ReadMapper.main(the);
+
                     KARGA_ResistomeMapper.main(the);
 
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                    }
+                });
+//                runOnUiThread(new Runnable() {
+//                    public void run() {
+//                        et_id.setText("");
+//                    }
+//                });
 
-                et_id.setText("");
 //                FileReader fr = null;
 //                File myExternalFile = new File(getExternalFilesDir(filepath),"megares_full_database_v2.00.fasta");
 //                String fpath = txt_path.getText().toString();
