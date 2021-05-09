@@ -1,0 +1,4 @@
+How would you convert bytes to String?
+Answer: To convert bytes to String, you would use Strong constructor which accepts byte[].
+
+However, you should be mindful of the right character encoding otherwise the platform’s default character encoding will be used, which may not necessarily be the same.
