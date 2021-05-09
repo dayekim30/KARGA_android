@@ -2,3 +2,8 @@ How would you convert bytes to String?
 Answer: To convert bytes to String, you would use Strong constructor which accepts byte[].
 
 However, you should be mindful of the right character encoding otherwise the platform’s default character encoding will be used, which may not necessarily be the same.
+
+Is ++ operator thread-safe in Java?
+Answer: ++ is not thread-safe in Java because it involves multiple commands such as reading a value, implicating it, and then storing it back into memory.
+
+This can be overlapped between multiple threads.
